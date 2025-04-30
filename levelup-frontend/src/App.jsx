@@ -1,35 +1,35 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import EduZone from "./pages/EduZone";
 import FitZone from "./pages/FitZone";
 import Profile from "./pages/Profile";
-import About from "./pages/About";
-import Leaderboard from "./pages/Leaderboard";
 import AdminPanel from "./pages/AdminPanel";
+import Login from "./pages/Login";
+import About from "./pages/About";
+
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" />;
+};
 
 function App() {
   return (
-    <div>
-      <nav>
-        <Link to="/">Dashboard</Link> |{" "}
-        <Link to="/eduzone">EduZone</Link> |{" "}
-        <Link to="/fitzone">FitZone</Link> |{" "}
-        <Link to="/profile">Profile</Link> |{" "}
-        <Link to="/about">About</Link>
-        <Link to="/leaderboard">Leaderboard</Link>
-        <Link to="/admin">Admin</Link>
-      </nav>
-
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/eduzone" element={<EduZone />} />
-        <Route path="/fitzone" element={<FitZone />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/admin" element={<AdminPanel />} />
-<Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        
+        {/* Protected Routes */}
+        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route path="/EduZone" element={<ProtectedRoute><EduZone /></ProtectedRoute>} />
+        <Route path="/FitZone" element={<ProtectedRoute><FitZone /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminPanel /></ProtectedRoute>} />
+        <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
+
+        <Route path="*" element={<h1 style={{ color: "white" }}>404 - Page Not Found</h1>} />
       </Routes>
-    </div>
+    </BrowserRouter>
   );
 }
 
