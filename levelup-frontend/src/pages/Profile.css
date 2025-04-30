@@ -1,68 +1,159 @@
-.profile-container {
-    padding: 40px;
-    color: white;
-    background-color: #1e1f26;
-    min-height: 100vh;
-}
-
-.stats {
-    background-color: #2c2f3a;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-    font-size: 18px;
-    line-height: 1.8;
-}
-
-.proofs {
+.profile-body {
     display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 10px;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #1e2a38;
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* Proof Card Styles */
-.proof-card {
-    position: relative;
-    display: inline-block;
+.sidebar {
+    width: 16%;
+    background: linear-gradient(180deg, #2c3545, #3d4a5a);
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-.proof-card img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 10px;
-    border: 2px solid #00cec9;
+.sidebar ul {
+    list-style: none;
+    padding: 0;
 }
 
-.status {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    background: #222;
+.sidebar li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+}
+
+.sidebar li:hover {
+    background-color: #5d6c82;
+    transform: translateX(5px);
+}
+
+.sidebar img {
+    width: 22px;
+    height: 22px;
+    filter: brightness(0) invert(1);
+}
+
+.main {
+    flex: 1;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.header {
+    font-size: 26px;
+    font-weight: bold;
     color: white;
-    font-size: 12px;
-    padding: 2px 6px;
-    border-radius: 4px;
 }
 
-.status.approved {
-    background: green;
+.top-section,
+.bottom-section {
+    display: flex;
+    gap: 25px;
 }
 
-.status.rejected {
-    background: red;
+.progress-box {
+    background-color: #2c3e50;
+    padding: 20px;
+    border-radius: 15px;
+    flex: 0 0 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.status.pending {
-    background: orange;
-}
-.proof-card:hover img {
-    border-color: #ff6b6b;
-    /* Change border color on hover */
+.progress-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    background-color: #1e2a38;
+    border: 6px solid #00c3ff;
 }
 
-.proof-card:hover .status {
-    background: #ff6b6b;
-    /* Change status background color on hover */
+.progress-box h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.progress-box span {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.calendar {
+    background-color: #2c3e50;
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    flex: 1;
+}
+
+.calendar h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.calendar table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #ccc;
+}
+
+.calendar th,
+.calendar td {
+    padding: 8px;
+    text-align: center;
+}
+
+.calendar td.active {
+    background-color: #00c3ff;
+    color: black;
+    border-radius: 5px;
+}
+
+.chart-box {
+    background-color: #2c3e50;
+    border-radius: 15px;
+    padding: 20px;
+    flex: 2;
+}
+
+.leaderboard {
+    background-color: #2c3e50;
+    border-radius: 15px;
+    padding: 20px;
+    flex: 1;
+}
+
+.leaderboard h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.leaderboard-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: #1e2a38;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.leaderboard-item.highlight {
+    background-color: #00c3ff;
+    color: black;
+    font-weight: bold;
 }

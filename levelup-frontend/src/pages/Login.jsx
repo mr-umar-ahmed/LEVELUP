@@ -1,53 +1,61 @@
+import "./Login.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-  const handleLogin = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-      if (res.ok) {
-        localStorage.setItem("token", data.token); // Save token in localStorage
-        alert("Logged in successfully!");
-        navigate("/"); // Redirect to home page
-      } else {
-        alert(data.message || "Login failed. Please check your credentials.");
-      }
-    } catch (error) {
-      console.error(error);
-      alert("An error occurred during login.");
-    }
-  };
+  const [showSignup, setShowSignup] = useState(false);
 
   return (
-    <div style={{ padding: "20px", maxWidth: "400px", margin: "auto" }}>
-      <h1>Login</h1>
-      <input
-        placeholder="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        style={{ display: "block", width: "100%", padding: "10px", marginBottom: "10px" }}
-      />
-      <input
-        placeholder="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{ display: "block", width: "100%", padding: "10px", marginBottom: "10px" }}
-      />
-      <button onClick={handleLogin} style={{ padding: "10px 20px" }}>
-        Log In
-      </button>
+    <div className="login-container">
+      <div className="left">
+        {/* === LOGIN FORM === */}
+        {!showSignup && (
+          <div className="form-section active">
+            <h2>Login</h2>
+            <div className="form-group">
+              <input type="text" placeholder="Username" />
+              <i className="fas fa-user"></i>
+            </div>
+            <div className="form-group">
+              <input type="password" placeholder="Password" />
+              <i className="fas fa-lock"></i>
+            </div>
+            <button className="btn">Login</button>
+            <p className="link-text">
+              Don't have an account?{" "}
+              <a onClick={() => setShowSignup(true)}>Sign Up</a>
+            </p>
+          </div>
+        )}
+
+        {/* === SIGNUP FORM === */}
+        {showSignup && (
+          <div className="form-section active">
+            <h2>Sign Up</h2>
+            <div className="form-group">
+              <input type="text" placeholder="Username" />
+              <i className="fas fa-user"></i>
+            </div>
+            <div className="form-group">
+              <input type="email" placeholder="Email" />
+              <i className="fas fa-envelope"></i>
+            </div>
+            <div className="form-group">
+              <input type="password" placeholder="Password" />
+              <i className="fas fa-lock"></i>
+            </div>
+            <button className="btn">Sign Up</button>
+            <p className="link-text">
+              Already have an account?{" "}
+              <a onClick={() => setShowSignup(false)}>Login</a>
+            </p>
+          </div>
+        )}
+      </div>
+
+      <div className="right">
+        <h2>WELCOME<br />BACK!</h2>
+        <p>Are you ready for LevelUp!!.</p>
+      </div>
     </div>
   );
 }

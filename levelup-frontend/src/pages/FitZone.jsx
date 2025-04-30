@@ -1,92 +1,78 @@
-import { useState, useEffect } from "react";
 import "./FitZone.css";
-import Chatbot from "../components/Chatbot"; // 🧩 Import Chatbot
+import { useState } from "react";
 
 function FitZone() {
-  const [workouts, setWorkouts] = useState([]);
-  const [workoutText, setWorkoutText] = useState("");
-  const [hydration, setHydration] = useState(0);
-  const [xp, setXp] = useState(0);
+  const [activities, setActivities] = useState([
+    { text: "Do 15 push-ups", completed: false },
+    { text: "Walk 2km", completed: false },
+    { text: "Stretch for 10 mins", completed: false },
+  ]);
+  const [newActivity, setNewActivity] = useState("");
 
-  useEffect(() => {
-    const savedWorkouts = JSON.parse(localStorage.getItem("fit_workouts"));
-    const savedHydration = JSON.parse(localStorage.getItem("fit_hydration"));
-    const savedXp = JSON.parse(localStorage.getItem("fit_xp"));
-    if (savedWorkouts) setWorkouts(savedWorkouts);
-    if (savedHydration) setHydration(savedHydration);
-    if (savedXp) setXp(savedXp);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("fit_workouts", JSON.stringify(workouts));
-    localStorage.setItem("fit_hydration", JSON.stringify(hydration));
-    localStorage.setItem("fit_xp", JSON.stringify(xp));
-  }, [workouts, hydration, xp]);
-
-  const addWorkout = () => {
-    if (workoutText.trim() === "") return;
-    const newWorkout = {
-      id: Date.now(),
-      text: workoutText,
-      completed: false,
-    };
-    setWorkouts([newWorkout, ...workouts]);
-    setWorkoutText("");
+  const toggleActivity = (index) => {
+    const updated = [...activities];
+    updated[index].completed = !updated[index].completed;
+    setActivities(updated);
   };
 
-  const toggleWorkout = (id) => {
-    setWorkouts(
-      workouts.map((w) => {
-        if (w.id === id) {
-          const updated = { ...w, completed: !w.completed };
-          if (updated.completed) {
-            setXp((prev) => prev + 15);
-          } else {
-            setXp((prev) => Math.max(0, prev - 10));
-          }
-          return updated;
-        }
-        return w;
-      })
-    );
-  };
-
-  const addHydration = () => {
-    setHydration((prev) => prev + 1);
-    setXp((prev) => prev + 5);
+  const addActivity = () => {
+    if (newActivity.trim()) {
+      setActivities([...activities, { text: newActivity, completed: false }]);
+      setNewActivity("");
+    }
   };
 
   return (
-    <div className="fitzone-container">
-      <h1>🏋️ FitZone</h1>
-      <h2>Your XP: {xp} ⭐</h2>
-
-      <div className="fit-input">
-        <input
-          type="text"
-          value={workoutText}
-          placeholder="Add workout (e.g., Push-ups x20)"
-          onChange={(e) => setWorkoutText(e.target.value)}
-        />
-        <button onClick={addWorkout}>Add Workout</button>
+    <div className="fitzone-body">
+      <div className="sidebar">
+        <ul>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/EduZone">EduZone</a></li>
+          <li><a href="/FitZone">FitZone</a></li>
+          <li><a href="/profile">Profile</a></li>
+          <li><a href="/leaderboard">Leaderboard</a></li>
+        </ul>
       </div>
 
-      <ul className="fit-list">
-        {workouts.map((w) => (
-          <li key={w.id} className={w.completed ? "done" : ""}>
-            <span onClick={() => toggleWorkout(w.id)}>{w.text}</span>
-          </li>
-        ))}
-      </ul>
+      <div className="main">
+        <h1>🏋️ FitZone</h1>
 
-      <div className="hydration">
-        <h3>💧 Water Intake</h3>
-        <p>Glasses: {hydration}</p>
-        <button onClick={addHydration}>+1 Glass</button>
+        <div className="fitzone-section">
+          <div className="activity-tracker">
+            <h2>🔥 Workout Activities</h2>
+            <ul>
+              {activities.map((activity, idx) => (
+                <li
+                  key={idx}
+                  className={activity.completed ? "completed" : ""}
+                  onClick={() => toggleActivity(idx)}
+                >
+                  {activity.text}
+                </li>
+              ))}
+            </ul>
+            <input
+              type="text"
+              placeholder="New activity..."
+              value={newActivity}
+              onChange={(e) => setNewActivity(e.target.value)}
+            />
+            <button onClick={addActivity}>Add Activity</button>
+          </div>
+
+          <div className="proof-upload">
+            <h2>📸 Upload Workout Proof</h2>
+            <input type="file" accept="image/*" />
+            <button>Submit for XP</button>
+          </div>
+        </div>
+
+        <div className="chatbot">
+          <h2>🤖 Fit AI Assistant</h2>
+          <p>Need a quick workout or motivational quote?</p>
+          <button>💪 Get Fitness Tip</button>
+        </div>
       </div>
-
-      {/* ✨ Chatbot Component Added Here */}
-      <Chatbot />
     </div>
   );
 }

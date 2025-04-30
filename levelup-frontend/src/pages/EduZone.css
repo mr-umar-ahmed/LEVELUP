@@ -1,149 +1,173 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #1e1f26;
-  color: white;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.eduzone-container {
+.eduzone-body {
   display: flex;
   height: 100vh;
+  background-color: #1e2a38;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
 }
 
+/* Sidebar */
 .sidebar {
-  width: 15%;
-  background-color: #30333f;
-  padding: 40px 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 35px;
+  width: 200px;
+  background-color: #151d27;
+  padding-top: 30px;
 }
 
 .sidebar ul {
-  list-style: none;
+  list-style-type: none;
   padding: 0;
-  margin: 0;
 }
 
-.sidebar li {
-  margin: 20px 0;
-  font-size: 18px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 25px;
-  padding: 12px 10px;
-  border-radius: 12px;
-  transition: background-color 0.3s, transform 0.2s;
+.sidebar ul li {
+  padding: 15px 20px;
   cursor: pointer;
-  color: white;
 }
 
-.sidebar li:hover {
-  background-color: #424656;
-  transform: translateX(5px);
+.sidebar ul li a {
+  color: #fff;
+  text-decoration: none;
 }
 
-.main-content {
-  flex: 1;
+.sidebar ul li:hover {
+  background-color: #263142;
+}
+
+/* Main */
+.main {
+  flex-grow: 1;
   padding: 40px;
+  overflow-y: auto;
 }
 
-/* 🔥 XP Heading Style */
-.main-content h2 {
-  font-size: 24px;
-  color: #00c896;
+.main h1 {
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+
+/* Section Grid */
+.eduzone-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+/* Task Manager */
+.task-manager {
+  background-color: #263142;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.task-manager h2 {
   margin-bottom: 10px;
 }
 
-.task-input {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
+.task-manager ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
 }
 
-.task-input input {
-  flex: 1;
-  padding: 10px;
+.task-manager li {
+  padding: 8px 12px;
+  background-color: #1f2a38;
   border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.task-manager li.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.task-manager li:hover {
+  background-color: #34475e;
+}
+
+.task-manager input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 6px;
   border: none;
   outline: none;
 }
 
-.task-input button {
-  padding: 10px 15px;
+.task-manager button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background-color: #00c3ff;
+  color: white;
   border: none;
   border-radius: 8px;
-  background-color: #00aaff;
-  color: white;
   cursor: pointer;
 }
 
-.task-list {
-  margin-top: 20px;
-  list-style: none;
-  padding: 0;
-}
-
-.task-list li {
-  background-color: #2a2d3a;
-  padding: 10px 15px;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.task-list li.completed span {
-  text-decoration: line-through;
-  color: #777;
-}
-
-/* --- Pomodoro Timer Styles --- */
-.pomodoro {
-  margin-top: 40px;
+/* Timer */
+.timer {
+  background-color: #263142;
+  padding: 20px;
+  border-radius: 12px;
   text-align: center;
 }
 
-.timer {
-  font-size: 48px;
-  margin: 20px 0;
+.timer-display {
+  font-size: 36px;
   font-weight: bold;
+  margin: 15px 0;
 }
 
-.buttons button {
+.timer-controls button {
   margin: 5px;
   padding: 10px 20px;
+  border-radius: 6px;
   border: none;
-  border-radius: 8px;
-  background-color: #ff7675;
-  color: white;
-  font-weight: bold;
   cursor: pointer;
+  background-color: #00b894;
+  color: white;
 }
 
-.buttons button:hover {
-  background-color: #d63031;
-}
-
-/* --- File Upload Styles --- */
+/* Proof Upload */
 .proof-upload {
-  margin-top: 30px;
+  background-color: #263142;
+  padding: 20px;
+  border-radius: 12px;
 }
 
 .proof-upload input {
   margin-top: 10px;
+  width: 100%;
 }
 
-.preview {
+.proof-upload button {
   margin-top: 10px;
+  padding: 10px;
+  background-color: #0984e3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
 }
 
-.preview img {
-  width: 200px;
+/* Chatbot */
+.chatbot {
+  background-color: #263142;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.chatbot button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #6c5ce7;
+  color: white;
+  border: none;
   border-radius: 8px;
-  margin-bottom: 10px;
+  cursor: pointer;
 }
