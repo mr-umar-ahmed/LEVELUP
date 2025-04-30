@@ -22,3 +22,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# dependencies
+node_modules/
+
+# production
+dist/
+build/
+
+# misc
+.DS_Store
+.env
+.vite
+.vscode
+*.log
+
+# system files
+Thumbs.db
+

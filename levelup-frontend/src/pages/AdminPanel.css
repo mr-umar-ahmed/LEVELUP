@@ -1,0 +1,43 @@
+.admin-panel {
+    padding: 40px;
+    background-color: #1e1f26;
+    color: white;
+    min-height: 100vh;
+}
+
+.proof-row {
+    border: 1px solid #444;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.status.pending {
+    color: orange;
+}
+
+.status.approved {
+    color: green;
+}
+
+.status.rejected {
+    color: red;
+}
+
+.actions button {
+    margin-right: 10px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.actions button:first-child {
+    background-color: #27ae60;
+    color: white;
+}
+
+.actions button:last-child {
+    background-color: #c0392b;
+    color: white;
+}

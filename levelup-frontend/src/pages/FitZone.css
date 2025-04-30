@@ -1,0 +1,59 @@
+.fitzone-container {
+    padding: 40px;
+    color: white;
+    background-color: #1b1d23;
+    min-height: 100vh;
+  }
+  
+  .fit-input {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .fit-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+  }
+  
+  .fit-input button {
+    padding: 10px 15px;
+    background-color: #00cec9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+  }
+  
+  .fit-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .fit-list li {
+    background: #2d2f38;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .fit-list li.done span {
+    text-decoration: line-through;
+    color: #aaa;
+  }
+  
+  .hydration {
+    margin-top: 30px;
+  }
+  
+  .hydration button {
+    padding: 10px 15px;
+    background-color: #0984e3;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+  }
+  

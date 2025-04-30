@@ -1,0 +1,68 @@
+.profile-container {
+    padding: 40px;
+    color: white;
+    background-color: #1e1f26;
+    min-height: 100vh;
+}
+
+.stats {
+    background-color: #2c2f3a;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.proofs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Proof Card Styles */
+.proof-card {
+    position: relative;
+    display: inline-block;
+}
+
+.proof-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #00cec9;
+}
+
+.status {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    background: #222;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.status.approved {
+    background: green;
+}
+
+.status.rejected {
+    background: red;
+}
+
+.status.pending {
+    background: orange;
+}
+.proof-card:hover img {
+    border-color: #ff6b6b;
+    /* Change border color on hover */
+}
+
+.proof-card:hover .status {
+    background: #ff6b6b;
+    /* Change status background color on hover */
+}
