@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Learn more about Level Up - your all-in-one tracker for study and fitness.">
   <title>About Level Up</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
   <style>
     * {
       margin: 0;
@@ -22,35 +24,48 @@
 
     nav.sidebar {
       width: 250px;
-      background: linear-gradient(136deg, rgba(169, 169, 169, 0.3) 39%, rgba(113, 96, 96, 0.3) 87%);
+      background: #1e2a38;
       padding-top: 60px;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
       position: fixed;
       top: 0;
       bottom: 0;
       left: 0;
+      z-index: 1000;
     }
 
     .sidebar ul {
       list-style: none;
-      padding-left: 30px;
+      padding-left: 0;
     }
 
     .sidebar li {
-      padding: 15px 0;
-      font-size: 18px;
+      padding: 15px 30px;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
       cursor: pointer;
-      transition: color 0.3s;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .sidebar li i {
+      width: 20px;
+      text-align: center;
     }
 
     .sidebar li:hover,
     .sidebar li.active {
+      background-color: #00c3ff33;
       color: #00f7ff;
     }
 
     .sidebar a {
       color: inherit;
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      width: 100%;
     }
 
     main.about-main {
@@ -113,25 +128,23 @@
       }
 
       nav.sidebar {
-        position: static;
         width: 100%;
-        padding-top: 20px;
-        border-radius: 0;
-        display: flex;
-        justify-content: center;
+        position: static;
+        padding: 10px 0;
+        background: #1e2a38;
         box-shadow: none;
-        background: rgba(113, 96, 96, 0.2);
       }
 
       .sidebar ul {
         display: flex;
-        gap: 20px;
+        justify-content: space-around;
         padding-left: 0;
-        justify-content: center;
       }
 
       .sidebar li {
-        padding: 10px;
+        padding: 10px 0;
+        font-size: 14px;
+        justify-content: center;
       }
 
       main.about-main {
@@ -146,11 +159,11 @@
 
   <nav class="sidebar">
     <ul>
-      <li><a href="/level-up-app/dashboard.html">Dashboard</a></li>
-      <li><a href="/level-up-app/profile.html">Profile</a></li>
-      <li><a href="/level-up-app/EduZone.html">Study</a></li>
-      <li><a href="/level-up-app/FitZone.html">Fitness</a></li>
-      <li class="active"><a href="/level-up-app/about.html">About</a></li>
+      <li><a href="/level-up-app/dashboard.html"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
+      <li><a href="/level-up-app/profile.html"><i class="fas fa-user"></i>Profile</a></li>
+      <li><a href="/level-up-app/EduZone.html"><i class="fas fa-book"></i>Study</a></li>
+      <li><a href="/level-up-app/FitZone.html"><i class="fas fa-dumbbell"></i>Fitness</a></li>
+      <li class="active"><a href="/level-up-app/about.html"><i class="fas fa-info-circle"></i>About</a></li>
     </ul>
   </nav>
 
