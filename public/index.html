@@ -1,89 +1,306 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Level Up - Study & Fitness Tracker</title>
+    <meta
+      name="description"
+      content="Track your study and fitness goals effortlessly with Level Up. Build consistency, track progress, and stay motivated!"
+    />
+    <meta name="theme-color" content="#00c3ff" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/11.9.1/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/11.9.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/11.9.1/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/11.9.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/11.9.1/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/11.9.1/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/11.9.1/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/11.9.1/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/11.9.1/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/11.9.1/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #1e2a38;
+        color: white;
+        line-height: 1.6;
+        scroll-behavior: smooth;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      header {
+        background: linear-gradient(135deg, #2c3e50, #1e2a38);
+        padding: 80px 20px 60px;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 3.2rem;
+        margin-bottom: 20px;
+        color: #00c3ff;
+      }
+
+      header p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto 30px;
+        color: #ccc;
+      }
+
+      .cta-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        padding: 14px 30px;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+        text-align: center;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background-color: #00c3ff;
+        color: black;
+      }
+
+      .btn-primary:hover {
+        background-color: #00a9d6;
+      }
+
+      .btn-outline {
+        background-color: transparent;
+        color: #00c3ff;
+        border: 2px solid #00c3ff;
+      }
+
+      .btn-outline:hover {
+        background-color: #00c3ff;
+        color: black;
+      }
+
+      section {
+        max-width: 1000px;
+        margin: 60px auto;
+        padding: 0 20px;
+      }
+
+      section h2 {
+        text-align: center;
+        font-size: 2.2rem;
+        margin-bottom: 40px;
+        color: #00c3ff;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+      }
+
+      .feature-item {
+        background: rgba(38, 49, 66, 0.9);
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .feature-item:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 8px 24px rgba(0, 195, 255, 0.3);
+      }
+
+      .feature-item h3 {
+        margin-bottom: 12px;
+        color: #00f7ff;
+        font-size: 1.3rem;
+      }
+
+      .screenshot-preview img {
+        width: 100%;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        margin-top: 20px;
+      }
+
+      .testimonials {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .testimonial {
+        background-color: #263142;
+        border-left: 4px solid #00c3ff;
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      .testimonial p {
+        font-style: italic;
+        color: #ccc;
+      }
+
+      .testimonial strong {
+        display: block;
+        margin-top: 10px;
+        color: #00c3ff;
+      }
+
+      footer {
+        text-align: center;
+        padding: 50px 20px 30px;
+        background-color: #151d27;
+        font-size: 0.9rem;
+        color: #888;
+      }
+
+      .footer-cta {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+        color: white;
+      }
+
       @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
+        header h1 {
+          font-size: 2.4rem;
+        }
+
+        .btn {
+          width: 100%;
+          max-width: 300px;
+        }
+
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <!-- Hero Section -->
+    <header>
+      <h1 data-aos="fade-down">Level Up</h1>
+      <p data-aos="fade-up">
+        Your all-in-one tracker for study and fitness. Stay motivated, build
+        habits, and level up every day!
+      </p>
+      <div class="cta-buttons" data-aos="zoom-in" data-aos-delay="300">
+        <a href="login.html" class="btn btn-primary">🚀 Get Started</a>
+        <a href="#features" class="btn btn-outline">🔍 Learn More</a>
+      </div>
+    </header>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    <!-- Features Section -->
+    <section id="features">
+      <h2 data-aos="fade-up">What You Can Do</h2>
+      <div class="feature-grid">
+        <div class="feature-item" data-aos="fade-up">
+          <h3>📚 Track Study</h3>
+          <p>
+            Log your study hours, subjects, and stay consistent with progress
+            tracking.
+          </p>
+        </div>
+        <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+          <h3>💪 Fitness Logs</h3>
+          <p>Stay active daily by tracking workouts, challenges, and goals.</p>
+        </div>
+        <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+          <h3>📊 Progress Charts</h3>
+          <p>
+            Visualize your daily progress, streaks, and XP with interactive
+            charts.
+          </p>
+        </div>
+        <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+          <h3>🏆 Leaderboard</h3>
+          <p>
+            Compete with others, stay on top, and earn your place in the hall of
+            fame.
+          </p>
+        </div>
+      </div>
+    </section>
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
+    <!-- Screenshot Preview -->
+    <section class="screenshot-preview">
+      <h2 data-aos="fade-up">See It in Action</h2>
+      <img
+        src="assets/images/dashboard-preview.png"
+        alt="Dashboard Screenshot"
+        data-aos="zoom-in"
+      />
+    </section>
+
+    <!-- Testimonials -->
+    <section>
+      <h2 data-aos="fade-up">Testimonials</h2>
+      <div class="testimonials">
+        <div class="testimonial" data-aos="fade-right">
+          <p>
+            “Level Up helped me build a 21-day study streak! Super motivating!”
+          </p>
+          <strong>— Ayesha R., Student</strong>
+        </div>
+        <div class="testimonial" data-aos="fade-left">
+          <p>
+            “I love how simple yet powerful this app is. It keeps me accountable
+            daily.”
+          </p>
+          <strong>— Rishi M., Fitness Enthusiast</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <footer>
+      <div class="footer-cta">Ready to level up your day?</div>
+      <a href="login.html" class="btn btn-primary">Join Now</a>
+      <p style="margin-top: 30px">&copy; 2025 Level Up. All rights reserved.</p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script
+      defer
+      src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"
+    ></script>
+    <script
+      defer
+      src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"
+    ></script>
+    <script defer>
+      const firebaseConfig = {
+        apiKey: "AIzaSyCSHtcsnC5AnfEEXnAQsP7UmYpSvoAzLmQ",
+        authDomain: "levelup-2cea4.firebaseapp.com",
+        projectId: "levelup-2cea4",
+        storageBucket: "levelup-2cea4.appspot.com",
+        messagingSenderId: "491625630322",
+        appId: "1:491625630322:web:9e4c7730d8a4aeda4a10eb",
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      auth.onAuthStateChanged((user) => {
+        if (user) window.location.href = "dashboard.html";
       });
+    </script>
+
+    <!-- AOS Animation Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({ duration: 1000 });
     </script>
   </body>
 </html>

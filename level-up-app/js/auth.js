@@ -1,6 +1,6 @@
 // js/auth.js
 import { auth } from './firebase.js';
-import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { createUserWithEmailAndPassword, updateProfile } from "https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-auth.js";
 
 window.handleRegister = async function () {
   const username = document.getElementById("username").value.trim();

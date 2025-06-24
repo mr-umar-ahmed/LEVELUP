@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>EduZone</title>
+  <title>EduZone | Level Up</title>
+
+  <!-- Firebase -->
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-app-compat.js"></script> 
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-auth-compat.js"></script> 
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       display: flex;
@@ -17,35 +18,79 @@
       background-color: #1e2a38;
       color: #fff;
       font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
     }
 
-    /* Sidebar */
-    .sidebar {
-      width: 200px;
-      background-color: #151d27;
-      padding-top: 30px;
+    nav.sidebar {
+      width: 18%;
+      min-width: 220px;
+      background: linear-gradient(180deg, #2c3545, #3d4a5a);
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);
     }
 
-    .sidebar ul {
-      list-style-type: none;
+    nav.sidebar ul {
+      list-style: none;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
 
-    .sidebar ul li {
-      padding: 15px 20px;
+    nav.sidebar li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 17px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      transition: all 0.25s ease;
       cursor: pointer;
     }
 
-    .sidebar ul li a {
-      color: #fff;
-      text-decoration: none;
+    nav.sidebar li:hover {
+      background-color: #00c3ff33;
+      transform: translateX(6px);
     }
 
-    .sidebar ul li:hover {
-      background-color: #263142;
+    nav.sidebar li.active {
+      background-color: #00c3ff;
+      color: black;
+      font-weight: bold;
     }
 
-    /* Main */
+    nav.sidebar img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1);
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      color: red;
+      margin-top: auto;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .logout-btn:hover {
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+
+    .logout-btn img {
+      margin-right: 8px;
+      width: 20px;
+      filter: brightness(0) invert(1);
+    }
+
     .main {
       flex-grow: 1;
       padding: 40px;
@@ -57,7 +102,6 @@
       font-size: 32px;
     }
 
-    /* Section Grid */
     .eduzone-section {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -65,14 +109,19 @@
       margin-bottom: 40px;
     }
 
-    /* Task Manager */
-    .task-manager {
+    .task-manager,
+    .timer,
+    .proof-upload,
+    .chatbot {
       background-color: #263142;
       padding: 20px;
       border-radius: 12px;
     }
 
-    .task-manager h2 {
+    .task-manager h2,
+    .timer h2,
+    .proof-upload h2,
+    .chatbot h2 {
       margin-bottom: 10px;
     }
 
@@ -109,7 +158,9 @@
       outline: none;
     }
 
-    .task-manager button {
+    .task-manager button,
+    .proof-upload button,
+    .chatbot button {
       margin-top: 10px;
       width: 100%;
       padding: 10px;
@@ -118,14 +169,6 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-    }
-
-    /* Timer */
-    .timer {
-      background-color: #263142;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
     }
 
     .timer-display {
@@ -144,74 +187,60 @@
       color: white;
     }
 
-    /* Proof Upload */
-    .proof-upload {
-      background-color: #263142;
-      padding: 20px;
-      border-radius: 12px;
-    }
-
     .proof-upload input {
       margin-top: 10px;
       width: 100%;
     }
 
-    .proof-upload button {
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #0984e3;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-    }
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
 
-    /* Chatbot */
-    .chatbot {
-      background-color: #263142;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-    }
+      nav.sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        overflow-x: auto;
+        gap: 15px;
+        padding: 15px;
+      }
 
-    .chatbot button {
-      margin-top: 10px;
-      padding: 10px 20px;
-      background-color: #6c5ce7;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+      nav.sidebar ul {
+        flex-direction: row;
+      }
 
-    /* Logout Button */
-    .logout-btn {
-      position: absolute;
-      top: 20px;
-      right: 40px;
-      background: linear-gradient(to right, #ff4b5c, #ff6b6b);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-weight: bold;
+      nav.sidebar li {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .main {
+        padding: 20px;
+      }
+
+      .eduzone-section {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
   <!-- === SIDEBAR === -->
-  <div class="sidebar">
+  <nav class="sidebar">
     <ul>
-      <li onclick="window.location.href='dashboard.html'">Dashboard</li>
-      <li onclick="window.location.href='EduZone.html'">EduZone</li>
-      <li onclick="window.location.href='FitZone.html'">FitZone</li>
-      <li onclick="window.location.href='profile.html'">Profile</li>
-      <li onclick="window.location.href='leaderboard.html'">Leaderboard</li>
+      <li onclick="location.href='dashboard.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/home.png"/>Dashboard</li>
+      <li class="active" onclick="location.href='EduZone.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/book.png"/>EduZone</li>
+      <li onclick="location.href='FitZone.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/dumbbell.png"/>FitZone</li>
+      <li onclick="location.href='profile.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/user.png"/>Profile</li>
+      <li onclick="location.href='leaderboard.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/leaderboard.png"/>Leaderboard</li>
     </ul>
-  </div>
+    <div class="logout-btn" onclick="auth.signOut()">
+      <img src="https://img.icons8.com/ios-filled/24/ffffff/logout-rounded-up.png" alt="Logout" />
+      Logout
+    </div>
+  </nav>
 
   <!-- === MAIN CONTENT === -->
   <div class="main">
@@ -253,13 +282,8 @@
     </div>
   </div>
 
-  <!-- Firebase Scripts -->
-  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-app-compat.js"></script> 
-  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-auth-compat.js"></script> 
-
-  <!-- Firebase Config -->
+  <!-- === Firebase Init & Auth === -->
   <script>
-    // Replace with your actual Firebase project config
     const firebaseConfig = {
       apiKey: "AIzaSyCSHtcsnC5AnfEEXnAQsP7UmYpSvoAzLmQ",
       authDomain: "levelup-2cea4.firebaseapp.com",
@@ -269,30 +293,15 @@
       appId: "1:491625630322:web:9e4c7730d8a4aeda4a10eb"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-  </script>
 
-  <!-- Auth Check & Logout Button -->
-  <script>
-    // Redirect if not logged in
     auth.onAuthStateChanged(user => {
-      if (!user) {
-        window.location.href = "login.html";
-      } else {
-        // Add logout button
-        const logoutBtn = document.createElement("button");
-        logoutBtn.textContent = "Logout";
-        logoutBtn.className = "logout-btn";
-        logoutBtn.onclick = () => auth.signOut();
-
-        document.body.appendChild(logoutBtn);
-      }
+      if (!user) window.location.href = "login.html";
     });
   </script>
 
-  <!-- Task Manager Logic -->
+  <!-- === Task Manager Logic === -->
   <script>
     const tasks = [
       { text: "Read a chapter", completed: false },
@@ -330,7 +339,23 @@
     renderTasks();
   </script>
 
-  <!-- Timer Logic -->
+  <!-- === AI Tip Logic === -->
+  <script>
+    const tips = [
+      "🎯 Stay focused, every small step counts.",
+      "📚 Consistency beats intensity!",
+      "🚀 Great things never come from comfort zones.",
+      "💡 Take short breaks – recharge your brain!",
+      "🏁 Don’t watch the clock – do what it does: keep going."
+    ];
+
+    document.querySelector('.chatbot button').addEventListener('click', () => {
+      const tip = tips[Math.floor(Math.random() * tips.length)];
+      alert(tip);
+    });
+  </script>
+
+  <!-- === Timer Logic === -->
   <script>
     let timer = 0;
     let interval = null;
@@ -365,7 +390,7 @@
       updateDisplay();
     }
 
-    updateDisplay(); // Initial display
+    updateDisplay();
   </script>
 </body>
 </html>

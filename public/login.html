@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Level Up</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Segoe UI", sans-serif; }
+
+    body {
+      background: #1e2a38;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-container {
+      display: flex;
+      flex-direction: row;
+      background: #263142;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 195, 255, 0.3);
+      max-width: 1000px;
+      width: 100%;
+      animation: fadeIn 1s ease;
+    }
+
+    .left {
+      flex: 1;
+      padding: 60px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #1e2a38;
+    }
+
+    .left h2 {
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      color: #00c3ff;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #445;
+      background: #2d3b4f;
+      color: white;
+      font-size: 1rem;
+      border-radius: 8px;
+      transition: border 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #00c3ff;
+      outline: none;
+    }
+
+    .btn {
+      background: linear-gradient(to right, #00f7ff, #00c3ff);
+      border: none;
+      padding: 14px;
+      color: black;
+      font-weight: bold;
+      font-size: 1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.85;
+    }
+
+    .link-text {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .link-text a {
+      color: #00c3ff;
+      text-decoration: none;
+    }
+
+    .link-text a:hover {
+      text-decoration: underline;
+    }
+
+    #error-message {
+      color: #ff6b6b;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .right {
+      flex: 1;
+      background: linear-gradient(160deg, #00c3ff, #004a59);
+      color: black;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 60px 30px;
+    }
+
+    .right h2 {
+      font-size: 2.6rem;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .right p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .quote-box {
+      margin-top: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #00c3ff;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: white;
+    }
+
+    .quote-box em {
+      color: #b0eaff;
+    }
+
+    #username-group {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .login-container {
+        flex-direction: column;
+      }
+
+      .right {
+        order: -1;
+      }
+
+      .left, .right {
+        padding: 40px 30px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="left">
+      <h2 id="form-title">Login</h2>
+      <form id="auth-form" onsubmit="handleSubmit(event)">
+        <div class="form-group" id="username-group">
+          <input type="text" id="username-input" placeholder="Username" />
+        </div>
+        <div class="form-group">
+          <input type="email" id="email-input" placeholder="Email" required />
+        </div>
+        <div class="form-group">
+          <input type="password" id="password-input" placeholder="Password" required />
+        </div>
+        <button type="submit" class="btn" id="submit-btn">Login</button>
+        <p id="error-message"></p>
+        <p class="link-text" id="toggle-link">
+          Don’t have an account? <a href="#" onclick="toggleForm()">Sign Up</a>
+        </p>
+      </form>
+    </div>
+
+    <div class="right">
+      <h2>Welcome Back!</h2>
+      <p>Track your growth. Build your habits. Level Up.</p>
+      <div class="quote-box">
+        <em>“Success is the sum of small efforts, repeated day in and day out.”</em><br>– Robert Collier
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCSHtcsnC5AnfEEXnAQsP7UmYpSvoAzLmQ",
+      authDomain: "levelup-2cea4.firebaseapp.com",
+      projectId: "levelup-2cea4",
+      storageBucket: "levelup-2cea4.appspot.com",
+      messagingSenderId: "491625630322",
+      appId: "1:491625630322:web:9e4c7730d8a4aeda4a10eb"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    let isSignup = false;
+
+    window.toggleForm = function () {
+      isSignup = !isSignup;
+      document.getElementById("form-title").textContent = isSignup ? "Sign Up" : "Login";
+      document.getElementById("username-group").style.display = isSignup ? "block" : "none";
+      document.getElementById("submit-btn").textContent = isSignup ? "Sign Up" : "Login";
+      document.getElementById("toggle-link").innerHTML = isSignup
+        ? `Already have an account? <a href="#" onclick="toggleForm()">Login</a>`
+        : `Don’t have an account? <a href="#" onclick="toggleForm()">Sign Up</a>`;
+      document.getElementById("error-message").style.display = "none";
+    };
+
+    window.handleSubmit = async function (e) {
+      e.preventDefault();
+      const email = document.getElementById("email-input").value.trim();
+      const password = document.getElementById("password-input").value;
+      const username = document.getElementById("username-input").value.trim();
+      const errorMessage = document.getElementById("error-message");
+
+      if (!email || !password || (isSignup && !username)) {
+        errorMessage.textContent = "Please fill in all fields.";
+        errorMessage.style.display = "block";
+        return;
+      }
+
+      try {
+        if (isSignup) {
+          const userCred = await createUserWithEmailAndPassword(auth, email, password);
+          await updateProfile(userCred.user, { displayName: username });
+        } else {
+          await signInWithEmailAndPassword(auth, email, password);
+        }
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        errorMessage.textContent = err.message;
+        errorMessage.style.display = "block";
+      }
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user && !isSignup) {
+        window.location.href = "dashboard.html";
+      }
+    });
+  </script>
+
+</body>
+</html>

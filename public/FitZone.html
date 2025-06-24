@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FitZone | Level Up</title>
+
+  <!-- Firebase -->
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #1e2a38;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    nav.sidebar {
+      width: 18%;
+      min-width: 220px;
+      background: linear-gradient(180deg, #2c3545, #3d4a5a);
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);
+    }
+
+    nav.sidebar ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    nav.sidebar li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 17px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    nav.sidebar li:hover {
+      background-color: #00c3ff33;
+      transform: translateX(6px);
+    }
+
+    nav.sidebar li.active {
+      background-color: #00c3ff;
+      color: black;
+      font-weight: bold;
+    }
+
+    nav.sidebar img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1);
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      color: red;
+      margin-top: auto;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .logout-btn:hover {
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+
+    .logout-btn img {
+      margin-right: 8px;
+      width: 20px;
+      filter: brightness(0) invert(1);
+    }
+
+    .main {
+      flex-grow: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .main h1 {
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
+
+    .fitzone-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .activity-tracker, .proof-upload, .chatbot {
+      background-color: #263142;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .activity-tracker h2,
+    .proof-upload h2,
+    .chatbot h2 {
+      margin-bottom: 10px;
+    }
+
+    .activity-tracker ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+    }
+
+    .activity-tracker li {
+      padding: 8px 12px;
+      background-color: #1f2a38;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .activity-tracker li.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .activity-tracker li:hover {
+      background-color: #34475e;
+    }
+
+    .activity-tracker input,
+    .proof-upload input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+    }
+
+    .activity-tracker button,
+    .proof-upload button,
+    .chatbot button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+    }
+
+    .activity-tracker button { background-color: #00cec9; }
+    .proof-upload button { background-color: #0984e3; }
+    .chatbot button { background-color: #6c5ce7; }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      nav.sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        overflow-x: auto;
+        gap: 15px;
+        padding: 15px;
+      }
+
+      nav.sidebar ul {
+        flex-direction: row;
+      }
+
+      nav.sidebar li {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .main {
+        padding: 20px;
+      }
+
+      .fitzone-section {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === SIDEBAR === -->
+  <nav class="sidebar">
+    <ul>
+      <li onclick="location.href='dashboard.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/home.png"/>Dashboard</li>
+      <li onclick="location.href='EduZone.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/book.png"/>EduZone</li>
+      <li class="active" onclick="location.href='FitZone.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/dumbbell.png"/>FitZone</li>
+      <li onclick="location.href='profile.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/user.png"/>Profile</li>
+      <li onclick="location.href='leaderboard.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/leaderboard.png"/>Leaderboard</li>
+    </ul>
+    <div class="logout-btn" onclick="auth.signOut()">
+      <img src="https://img.icons8.com/ios-filled/24/ffffff/logout-rounded-up.png" alt="Logout" />
+      Logout
+    </div>
+  </nav>
+
+  <!-- === MAIN CONTENT === -->
+  <div class="main">
+    <h1>🏋️ FitZone</h1>
+
+    <div class="fitzone-section">
+      <div class="activity-tracker">
+        <h2>🔥 Workout Activities</h2>
+        <ul id="activity-list"></ul>
+        <input type="text" id="new-activity" placeholder="New activity..." />
+        <button onclick="addActivity()">Add Activity</button>
+      </div>
+
+      <div class="proof-upload">
+        <h2>📸 Upload Workout Proof</h2>
+        <input type="file" accept="image/*" />
+        <button>Submit for XP</button>
+      </div>
+    </div>
+
+    <div class="chatbot">
+      <h2>🤖 Fit AI Assistant</h2>
+      <p>Need a quick workout or motivational quote?</p>
+      <button onclick="getFitnessTip()">💪 Get Fitness Tip</button>
+    </div>
+  </div>
+
+  <!-- === Firebase Config === -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCSHtcsnC5AnfEEXnAQsP7UmYpSvoAzLmQ",
+      authDomain: "levelup-2cea4.firebaseapp.com",
+      projectId: "levelup-2cea4",
+      storageBucket: "levelup-2cea4.firebasestorage.app",
+      messagingSenderId: "491625630322",
+      appId: "1:491625630322:web:9e4c7730d8a4aeda4a10eb"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) window.location.href = "login.html";
+    });
+  </script>
+
+  <!-- === Activity Tracker === -->
+  <script>
+    let activities = JSON.parse(localStorage.getItem("fit_activities")) || [
+      { text: "Do 15 push-ups", completed: false },
+      { text: "Walk 2km", completed: false },
+      { text: "Stretch for 10 mins", completed: false }
+    ];
+
+    function renderActivities() {
+      const list = document.getElementById("activity-list");
+      list.innerHTML = "";
+      activities.forEach((activity, idx) => {
+        const li = document.createElement("li");
+        li.textContent = activity.text;
+        if (activity.completed) li.classList.add("completed");
+        li.onclick = () => toggleActivity(idx);
+        list.appendChild(li);
+      });
+      localStorage.setItem("fit_activities", JSON.stringify(activities));
+    }
+
+    function toggleActivity(index) {
+      activities[index].completed = !activities[index].completed;
+      renderActivities();
+    }
+
+    function addActivity() {
+      const input = document.getElementById("new-activity");
+      const text = input.value.trim();
+      if (text) {
+        activities.push({ text, completed: false });
+        input.value = "";
+        renderActivities();
+      }
+    }
+
+    renderActivities();
+  </script>
+
+  <!-- === Fitness Tip Generator === -->
+  <script>
+    const fitnessTips = [
+      "💡 Consistency beats intensity. Just show up!",
+      "🔥 Short workouts are better than none!",
+      "🏃‍♂️ One step at a time. Progress, not perfection.",
+      "💪 You are stronger than you think.",
+      "🧘 Don’t forget to stretch and breathe!"
+    ];
+
+    function getFitnessTip() {
+      const tip = fitnessTips[Math.floor(Math.random() * fitnessTips.length)];
+      alert(tip);
+    }
+  </script>
+</body>
+</html>

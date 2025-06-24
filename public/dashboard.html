@@ -3,98 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard</title>
+  <title>Dashboard | Level Up</title>
 
-  <!-- Chart.js CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"  defer></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
 
-  <!-- Firebase SDKs (Correct URLs) -->
-  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-app-compat.js"></script> 
-  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-auth-compat.js"></script> 
+  <!-- Firebase SDKs -->
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      display: flex;
       font-family: 'Segoe UI', sans-serif;
       background-color: #1e2a38;
-      color: #fff;
+      color: white;
+      display: flex;
       height: 100vh;
       overflow: hidden;
     }
 
-    .sidebar {
-      width: 16%;
+    nav.sidebar {
+      width: 18%;
+      min-width: 220px;
       background: linear-gradient(180deg, #2c3545, #3d4a5a);
       padding: 30px 20px;
       display: flex;
       flex-direction: column;
       gap: 30px;
+      transition: all 0.3s ease;
+      box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);
     }
 
-    .sidebar ul { list-style: none; }
-    .sidebar li {
+    nav.sidebar ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    nav.sidebar li {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 16px;
-      padding: 10px;
-      border-radius: 8px;
-      transition: background 0.3s ease, transform 0.2s ease;
+      gap: 14px;
+      font-size: 17px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      transition: all 0.25s ease;
       cursor: pointer;
-      color: white;
     }
 
-    .sidebar li:hover {
-      background-color: #5d6c82;
-      transform: translateX(5px);
+    nav.sidebar li:hover {
+      background-color: #00c3ff33;
+      transform: translateX(6px);
     }
 
-    .sidebar img {
+    nav.sidebar li.active {
+      background-color: #00c3ff;
+      color: black;
+      font-weight: bold;
+    }
+
+    nav.sidebar img {
       width: 22px;
       height: 22px;
       filter: brightness(0) invert(1);
     }
 
-    .main {
+    main {
       flex: 1;
       padding: 30px 40px;
       display: flex;
       flex-direction: column;
       gap: 30px;
-      background-color: #1e2a38;
+      overflow-y: auto;
     }
 
     .header {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: bold;
-      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .top-section,
-    .bottom-section {
+    .top-section, .bottom-section {
       display: flex;
       gap: 25px;
     }
 
-    .progress-box {
+    .progress-box, .calendar, .chart-box, .leaderboard {
       background-color: #2c3e50;
-      padding: 20px;
       border-radius: 15px;
+      padding: 20px;
+    }
+
+    .progress-box {
       flex: 0 0 220px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
-    .progress-box h3 { font-size: 16px; margin-bottom: 15px; }
+    .progress-box h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
     .progress-circle {
       width: 100px;
       height: 100px;
-      border-radius: 20px;
-      background-color: #1e2a38;
+      border-radius: 50%;
       border: 6px solid #00c3ff;
+      background-color: #1e2a38;
     }
 
     .progress-box span {
@@ -104,22 +131,22 @@
     }
 
     .calendar {
-      background-color: #2c3e50;
-      border-radius: 15px;
-      padding: 20px;
-      color: white;
       flex: 1;
+      color: white;
     }
 
-    .calendar h3 { font-size: 16px; margin-bottom: 10px; }
+    .calendar h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
     .calendar table {
       width: 100%;
       border-collapse: collapse;
       color: #ccc;
     }
 
-    .calendar th,
-    .calendar td {
+    .calendar th, .calendar td {
       padding: 8px;
       text-align: center;
     }
@@ -131,16 +158,10 @@
     }
 
     .chart-box {
-      background-color: #2c3e50;
-      border-radius: 15px;
-      padding: 20px;
       flex: 2;
     }
 
     .leaderboard {
-      background-color: #2c3e50;
-      border-radius: 15px;
-      padding: 20px;
       flex: 1;
     }
 
@@ -164,48 +185,98 @@
       color: black;
       font-weight: bold;
     }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      color: red;
+      margin-top: auto;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .logout-btn:hover {
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+
+    .logout-btn img {
+      margin-right: 8px;
+      width: 20px;
+      filter: brightness(0) invert(1);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+        overflow-y: scroll;
+      }
+
+      nav.sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        overflow-x: auto;
+        gap: 15px;
+        padding: 15px;
+      }
+
+      nav.sidebar ul {
+        flex-direction: row;
+      }
+
+      nav.sidebar li {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .top-section, .bottom-section {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- === SIDEBAR === -->
-  <div class="sidebar">
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
     <ul>
-      <li onclick="window.location.href='dashboard.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/home.png"  alt="Dashboard" /> Dashboard
-      </li>
-      <li onclick="window.location.href='profile.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/user.png"  alt="Profile" /> Profile
-      </li>
-      <li onclick="window.location.href='EduZone.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/book.png"  alt="EduZone" /> EduZone
-      </li>
-      <li onclick="window.location.href='FitZone.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/dumbbell.png"  alt="FitZone" /> FitZone
-      </li>
-      <li onclick="window.location.href='about.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/about.png"  alt="About" /> About
-      </li>
+      <li class="active" onclick="location.href='dashboard.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/home.png" /> Dashboard</li>
+      <li onclick="location.href='profile.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/user.png" /> Profile</li>
+      <li onclick="location.href='EduZone.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/book.png" /> EduZone</li>
+      <li onclick="location.href='FitZone.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/dumbbell.png" /> FitZone</li>
+      <li onclick="location.href='about.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/about.png" /> About</li>
     </ul>
-  </div>
+    <div class="logout-btn" onclick="auth.signOut()">
+      <img src="https://img.icons8.com/ios-filled/24/ffffff/logout-rounded-up.png" alt="Logout" />
+      Logout
+    </div>
+  </nav>
 
-  <!-- === MAIN CONTENT === -->
-  <div class="main">
-    <div class="header">Dashboard</div>
+  <!-- Main Dashboard Area -->
+  <main>
+    <div class="header">
+      Dashboard
+      <div id="greeting" style="font-size:14px; color:#ccc;"></div>
+    </div>
 
     <div class="top-section">
       <div class="progress-box">
         <h3>Progress Status</h3>
         <div class="progress-circle"></div>
-        <span>Task completed</span>
+        <span>Task Completed</span>
       </div>
 
       <div class="calendar">
         <h3>April 2025</h3>
         <table>
-          <thead>
-            <tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr>
-          </thead>
+          <thead><tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr></thead>
           <tbody>
             <tr><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
             <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
@@ -221,7 +292,6 @@
       <div class="chart-box">
         <canvas id="lineChart"></canvas>
       </div>
-
       <div class="leaderboard">
         <h3>Leaderboard</h3>
         <div class="leaderboard-item">1. Bryan Wolf <span>43 pts</span></div>
@@ -231,13 +301,12 @@
         <div class="leaderboard-item">5. Tamara Schmidt <span>33 pts</span></div>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- === CHART JS === -->
+  <!-- Chart Initialization -->
   <script>
-    const chartCanvas = document.getElementById('lineChart');
-    if (chartCanvas) {
-      const ctx = chartCanvas.getContext('2d');
+    document.addEventListener("DOMContentLoaded", function () {
+      const ctx = document.getElementById('lineChart').getContext('2d');
       new Chart(ctx, {
         type: 'line',
         data: {
@@ -254,27 +323,18 @@
           }]
         },
         options: {
-          plugins: {
-            legend: { display: false }
-          },
+          plugins: { legend: { display: false } },
           scales: {
-            x: {
-              grid: { color: '#445' },
-              ticks: { color: '#ccc' }
-            },
-            y: {
-              grid: { color: '#445' },
-              ticks: { color: '#ccc' }
-            }
+            x: { grid: { color: '#445' }, ticks: { color: '#ccc' } },
+            y: { grid: { color: '#445' }, ticks: { color: '#ccc' } }
           }
         }
       });
-    }
+    });
   </script>
 
-  <!-- === FIREBASE AUTH CHECK & LOGOUT === -->
+  <!-- Firebase Auth & User Greeting -->
   <script>
-    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyCSHtcsnC5AnfEEXnAQsP7UmYpSvoAzLmQ",
       authDomain: "levelup-2cea4.firebaseapp.com",
@@ -283,35 +343,17 @@
       messagingSenderId: "491625630322",
       appId: "1:491625630322:web:9e4c7730d8a4aeda4a10eb"
     };
-
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-  </script>
 
-  <script>
-    // Redirect if not logged in
     auth.onAuthStateChanged(user => {
       if (!user) {
         window.location.href = "login.html";
       } else {
-        document.querySelector(".header").innerHTML += `
-          <div style="font-size:14px; color:#ccc; margin-top:5px;">
-            Hi, ${user.displayName || user.email}
-          </div>
-        `;
-
-        // Add logout option
-        const logoutBtn = document.createElement("li");
-        logoutBtn.innerHTML = `
-          <img src="https://img.icons8.com/ios-filled/24/ffffff/logout-rounded-up.png"  alt="Logout" />
-          Logout`;
-        logoutBtn.style.color = "red";
-        logoutBtn.style.marginTop = "auto";
-        logoutBtn.onclick = () => auth.signOut();
-        document.querySelector(".sidebar ul").appendChild(logoutBtn);
+        document.getElementById("greeting").textContent = `Hi, ${user.displayName || user.email}`;
       }
     });
   </script>
+
 </body>
 </html>

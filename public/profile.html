@@ -4,48 +4,63 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Profile</title>
+  <link rel="icon" href="favicon.ico" />
 
   <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"  defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>   
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>   
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       display: flex;
       font-family: 'Segoe UI', sans-serif;
       background-color: #1e2a38;
       color: #fff;
       height: 100vh;
-      overflow: hidden;
     }
 
     .sidebar {
-      width: 16%;
+      width: 18%;
+      min-width: 220px;
       background: linear-gradient(180deg, #2c3545, #3d4a5a);
       padding: 30px 20px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
     }
 
-    .sidebar ul { list-style: none; padding: 0; }
+    .sidebar ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
     .sidebar li {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 16px;
-      padding: 10px;
-      border-radius: 8px;
-      transition: background 0.3s ease, transform 0.2s ease;
+      gap: 14px;
+      font-size: 17px;
+      padding: 12px 14px;
+      border-radius: 10px;
       cursor: pointer;
+      transition: all 0.25s ease;
       color: white;
     }
 
     .sidebar li:hover {
-      background-color: #5d6c82;
-      transform: translateX(5px);
+      background-color: #00c3ff33;
+      transform: translateX(6px);
+    }
+
+    .sidebar li.active {
+      background-color: #00c3ff;
+      color: black;
+      font-weight: bold;
     }
 
     .sidebar img {
@@ -54,12 +69,31 @@
       filter: brightness(0) invert(1);
     }
 
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 40px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 16px;
+      background-color: rgba(255, 0, 0, 0.1);
+      color: red;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background-color: rgba(255, 0, 0, 0.2);
+    }
+
     .main {
       flex: 1;
       padding: 30px 40px;
       display: flex;
       flex-direction: column;
       gap: 30px;
+      overflow-y: auto;
     }
 
     .header {
@@ -87,7 +121,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
     .progress-circle {
@@ -113,20 +146,22 @@
       background-color: #2c3e50;
       border-radius: 15px;
       padding: 20px;
-      color: white;
       flex: 1;
     }
 
     .calendar h3 { font-size: 16px; margin-bottom: 10px; }
+
     .calendar table {
       width: 100%;
       border-collapse: collapse;
       color: #ccc;
     }
+
     .calendar th, .calendar td {
       padding: 8px;
       text-align: center;
     }
+
     .calendar td.active {
       background-color: #00c3ff;
       color: black;
@@ -138,6 +173,7 @@
       border-radius: 15px;
       padding: 20px;
       flex: 2;
+      min-height: 240px;
     }
 
     .leaderboard {
@@ -171,28 +207,33 @@
 </head>
 <body>
 
-  <!-- SIDEBAR -->
+  <!-- === SIDEBAR === -->
   <div class="sidebar">
     <ul>
       <li onclick="window.location.href='dashboard.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/grid.png"  alt="Dashboard" /> Dashboard
+        <img src="https://img.icons8.com/ios-filled/24/ffffff/grid.png" /> Dashboard
       </li>
-      <li onclick="window.location.href='profile.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/user.png"  alt="Profile" /> Profile
+      <li class="active" onclick="window.location.href='profile.html'">
+        <img src="https://img.icons8.com/ios-filled/24/ffffff/user.png" /> Profile
       </li>
       <li onclick="window.location.href='EduZone.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/book.png"  alt="EduZone" /> EduZone
+        <img src="https://img.icons8.com/ios-filled/24/ffffff/book.png" /> EduZone
       </li>
       <li onclick="window.location.href='FitZone.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/dumbbell.png"  alt="FitZone" /> FitZone
+        <img src="https://img.icons8.com/ios-filled/24/ffffff/dumbbell.png" /> FitZone
       </li>
       <li onclick="window.location.href='about.html'">
-        <img src="https://img.icons8.com/ios-filled/24/ffffff/about.png"  alt="About" /> About
+        <img src="https://img.icons8.com/ios-filled/24/ffffff/about.png" /> About
       </li>
     </ul>
+
+    <div class="logout-btn" onclick="auth.signOut()">
+      <img src="https://img.icons8.com/ios-filled/24/ffffff/logout-rounded-up.png" />
+      Logout
+    </div>
   </div>
 
-  <!-- MAIN -->
+  <!-- === MAIN CONTENT === -->
   <div class="main">
     <div class="header">
       Profile
@@ -207,17 +248,17 @@
       </div>
 
       <div class="calendar">
-        <h3>April 2025</h3>
+        <h3>June 2025</h3>
         <table>
           <thead>
             <tr><th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th></tr>
           </thead>
           <tbody>
-            <tr><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
-            <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
-            <tr><td>13</td><td class="active">14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
-            <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr>
-            <tr><td>27</td><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td></tr>
+            <tr><td>1</td><td>2</td><td class="active">3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+            <tr><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td></tr>
+            <tr><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td></tr>
+            <tr><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td></tr>
+            <tr><td>29</td><td>30</td><td></td><td></td><td></td><td></td><td></td></tr>
           </tbody>
         </table>
       </div>
@@ -239,13 +280,10 @@
     </div>
   </div>
 
-  <!-- CHART SCRIPT -->
+  <!-- === CHART RENDER === -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      const chartCanvas = document.getElementById('lineChart');
-      if (!chartCanvas) return;
-
-      const ctx = chartCanvas.getContext('2d');
+      const ctx = document.getElementById('lineChart').getContext('2d');
       new Chart(ctx, {
         type: 'line',
         data: {
@@ -262,7 +300,9 @@
           }]
         },
         options: {
-          plugins: { legend: { display: false } },
+          plugins: { legend: { display: false }},
+          responsive: true,
+          maintainAspectRatio: false,
           scales: {
             x: { grid: { color: '#445' }, ticks: { color: '#ccc' }},
             y: { grid: { color: '#445' }, ticks: { color: '#ccc' }}
@@ -272,19 +312,17 @@
     });
   </script>
 
-  <!-- FIREBASE AUTH CHECK -->
+  <!-- === FIREBASE AUTH === -->
   <script>
-    // Firebase config added here:
     const firebaseConfig = {
       apiKey: "AIzaSyCSHtcsnC5AnfEEXnAQsP7UmYpSvoAzLmQ",
       authDomain: "levelup-2cea4.firebaseapp.com",
       projectId: "levelup-2cea4",
-      storageBucket: "levelup-2cea4.firebasestorage.app",
+      storageBucket: "levelup-2cea4.appspot.com",
       messagingSenderId: "491625630322",
       appId: "1:491625630322:web:9e4c7730d8a4aeda4a10eb"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
@@ -292,23 +330,11 @@
       if (!user) {
         window.location.href = "login.html";
       } else {
-        document.getElementById("userInfo").innerText =
-          `Logged in as: ${user.displayName || user.email}`;
-
-        // Add logout button
-        const logoutBtn = document.createElement("li");
-        logoutBtn.innerHTML = `
-          <img src="https://img.icons8.com/ios-filled/24/ffffff/logout-rounded-up.png"  alt="Logout" />
-          Logout`;
-        logoutBtn.style.color = "red";
-        logoutBtn.onclick = () => auth.signOut();
-        document.querySelector(".sidebar ul").appendChild(logoutBtn);
+        const name = user.displayName || user.email.split("@")[0];
+        document.getElementById("userInfo").innerText = `Logged in as: ${name}`;
       }
     });
   </script>
-
-  <!-- EduZone Script -->
-  <script type="module" src="js/eduzone.js"></script>
 
 </body>
 </html>

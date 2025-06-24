@@ -4,23 +4,101 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leaderboard</title>
+
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
       font-family: 'Segoe UI', sans-serif;
       background-color: #1e1f26;
       color: white;
     }
 
-    .leaderboard-container {
-      padding: 40px;
-      min-height: 100vh;
+    /* === SIDEBAR === */
+    nav.sidebar {
+      width: 18%;
+      min-width: 220px;
+      background: linear-gradient(180deg, #2c3545, #3d4a5a);
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);
     }
 
-    .leaderboard-container h1 {
+    nav.sidebar ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    nav.sidebar li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 17px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    nav.sidebar li:hover {
+      background-color: #00c3ff33;
+      transform: translateX(6px);
+    }
+
+    nav.sidebar li.active {
+      background-color: #00c3ff;
+      color: black;
+      font-weight: bold;
+    }
+
+    nav.sidebar img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1);
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      margin-top: auto;
+      font-size: 16px;
+      color: red;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+
+    .logout-btn img {
+      margin-right: 8px;
+      width: 20px;
+      filter: brightness(0) invert(1);
+    }
+
+    /* === MAIN === */
+    .main {
+      flex-grow: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .main h1 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      font-size: 32px;
     }
 
     ol {
@@ -87,84 +165,82 @@
     }
 
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .logout-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: linear-gradient(to right, #ff4b5c, #ff6b6b);
-      border: none;
-      padding: 8px 16px;
-      color: white;
-      font-weight: bold;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
 
-    .logout-btn:hover {
-      opacity: 0.9;
+      nav.sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 15px;
+        gap: 15px;
+      }
+
+      nav.sidebar ul {
+        flex-direction: row;
+      }
+
+      .main {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="leaderboard-container">
+  <!-- === SIDEBAR === -->
+  <nav class="sidebar">
+    <ul>
+      <li onclick="location.href='dashboard.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/home.png"/>Dashboard</li>
+      <li onclick="location.href='EduZone.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/book.png"/>EduZone</li>
+      <li onclick="location.href='FitZone.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/dumbbell.png"/>FitZone</li>
+      <li onclick="location.href='profile.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/user.png"/>Profile</li>
+      <li class="active" onclick="location.href='leaderboard.html'"><img src="https://img.icons8.com/ios-filled/24/ffffff/leaderboard.png"/>Leaderboard</li>
+    </ul>
+    <div class="logout-btn" onclick="auth.signOut()">
+      <img src="https://img.icons8.com/ios-filled/24/ffffff/logout-rounded-up.png" alt="Logout" />
+      Logout
+    </div>
+  </nav>
+
+  <!-- === MAIN CONTENT === -->
+  <div class="main">
     <h1>🏆 Global Leaderboard</h1>
     <ol id="leaderboard-list">
       <!-- Data will be inserted here -->
     </ol>
   </div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-app-compat.js"></script> 
-  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-auth-compat.js"></script> 
+  <!-- === Firebase SDK === -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 
-  <!-- Firebase Config & Auth Check -->
+  <!-- === Firebase Config + Auth Check === -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCSHtcsnC5AnfEEXnAQsP7UmYpSvoAzLmQ",
       authDomain: "levelup-2cea4.firebaseapp.com",
       projectId: "levelup-2cea4",
-      storageBucket: "levelup-2cea4.firebasestorage.app",
+      storageBucket: "levelup-2cea4.appspot.com",
       messagingSenderId: "491625630322",
       appId: "1:491625630322:web:9e4c7730d8a4aeda4a10eb"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-  </script>
 
-  <!-- Logout Button + Auth Check -->
-  <script>
-    // Add logout button if user is logged in
     auth.onAuthStateChanged(user => {
       if (!user) {
         window.location.href = "login.html";
-      } else {
-        const container = document.querySelector('.leaderboard-container');
-
-        const logoutBtn = document.createElement("button");
-        logoutBtn.textContent = "Logout";
-        logoutBtn.className = "logout-btn";
-        logoutBtn.onclick = () => auth.signOut();
-
-        container.appendChild(logoutBtn);
       }
     });
   </script>
 
-  <!-- Leaderboard Logic -->
+  <!-- === Leaderboard Logic === -->
   <script>
     const leaderboardList = document.getElementById("leaderboard-list");
 
@@ -180,15 +256,10 @@
     ];
 
     function getMaxXP(data) {
-      return Math.max(...data.map(u => u.xp));
+      return Math.max(...data.map(user => user.xp));
     }
 
     function renderLeaderboard(data) {
-      if (!data.length) {
-        leaderboardList.innerHTML = "<li>No users found.</li>";
-        return;
-      }
-
       leaderboardList.innerHTML = "";
       const maxXP = getMaxXP(data);
 
@@ -197,11 +268,10 @@
         li.textContent = `#${index + 1} ${user.username} | XP: ${user.xp} | 🔥 Streak: ${user.streak}`;
         li.setAttribute("data-rank", `Rank: #${index + 1}`);
 
-        if (user.username === "You") {
+        if (user.username.toLowerCase() === "you") {
           li.classList.add("you");
         }
 
-        // Badge for top user
         if (index === 0) {
           const badge = document.createElement("span");
           badge.classList.add("top-user-badge");
@@ -209,7 +279,6 @@
           li.appendChild(badge);
         }
 
-        // Progress bar
         const progressBar = document.createElement("div");
         progressBar.classList.add("progress-bar");
 
@@ -219,16 +288,16 @@
 
         progressBar.appendChild(progress);
         li.appendChild(progressBar);
-
         leaderboardList.appendChild(li);
       });
     }
 
-    fetch("http://localhost:5000/leaderboard")
+    // Fetch leaderboard data
+    fetch("https://your-backend-api-url.com/leaderboard")
       .then(res => res.json())
       .then(data => renderLeaderboard(data))
       .catch(err => {
-        console.warn("Failed to fetch leaderboard, using mock data:", err);
+        console.warn("Backend failed, using mock data:", err);
         renderLeaderboard(mockData);
       });
   </script>
