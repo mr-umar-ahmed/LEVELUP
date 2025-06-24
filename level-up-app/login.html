@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background-color: #0a0f1c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .login-container {
+      display: flex;
+      background: #0a0f1c;
+      border: 2px solid #00f7ff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #00f7ff;
+      max-width: 800px;
+      width: 100%;
+      transition: 0.5s ease-in-out;
+    }
+
+    .left {
+      flex: 1;
+      background-color: #0a0f1c;
+      padding: 50px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h2 {
+      color: white;
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 40px 12px 10px;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      background: transparent;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus {
+      border-color: #00f7ff;
+      outline: none;
+    }
+
+    .btn {
+      background: linear-gradient(to right, #00f7ff, #00c3ff);
+      border: none;
+      padding: 12px;
+      color: #000;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    .link-text {
+      color: #aaa;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .link-text a {
+      color: #00f7ff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .link-text a:hover {
+      text-decoration: underline;
+    }
+
+    .right {
+      flex: 1;
+      background: linear-gradient(to bottom right, #00f7ff, #007c8c);
+      color: white;
+      padding: 50px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .right h2 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .right p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="left">
+      <div class="form-section active">
+        <h2 id="form-title">Login</h2>
+
+        <div id="username-field" style="display:none;">
+          <div class="form-group">
+            <input type="text" placeholder="Username" name="username" id="username-input" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="email" placeholder="Email" name="email" id="email-input" />
+        </div>
+
+        <div class="form-group">
+          <input type="password" placeholder="Password" name="password" id="password-input" />
+        </div>
+
+        <button class="btn" onclick="handleSubmit()">Login</button>
+
+        <p id="error-message" style="color:red;margin-top:10px;display:none;"></p>
+
+      </div>
+    </div>
+
+    <div class="right">
+      <h2>WELCOME<br />BACK!</h2>
+      <p>Your personalized study and fitness tracker!</p>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-app-compat.js"></script> 
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-auth-compat.js"></script> 
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCSHtcsnC5AnfEEXnAQsP7UmYpSvoAzLmQ",
+      authDomain: "levelup-2cea4.firebaseapp.com",
+      projectId: "levelup-2cea4",
+      storageBucket: "levelup-2cea4.firebasestorage.app",
+      messagingSenderId: "491625630322",
+      appId: "1:491625630322:web:9e4c7730d8a4aeda4a10eb"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    let isSignup = false;
+
+    function toggleForm() {
+      isSignup = !isSignup;
+      document.getElementById("form-title").textContent = isSignup ? "Sign Up" : "Login";
+      document.getElementById("username-field").style.display = isSignup ? "block" : "none";
+      document.querySelector(".link-text").innerHTML = isSignup 
+        ? "Already have an account? <a href='#' onclick='toggleForm()'>Login</a>" 
+        : "Don't have an account? <a href='#' onclick='toggleForm()'>Sign Up</a>";
+      document.querySelector(".btn").textContent = isSignup ? "Sign Up" : "Login";
+      document.getElementById("error-message").style.display = "none";
+    }
+
+    async function handleSubmit() {
+      const email = document.getElementById("email-input").value.trim();
+      const password = document.getElementById("password-input").value.trim();
+      const username = document.getElementById("username-input").value.trim();
+
+      if (!email || !password) {
+        document.getElementById("error-message").textContent = "Please enter both email and password.";
+        document.getElementById("error-message").style.display = "block";
+        return;
+      }
+
+      try {
+        if (isSignup) {
+          if (!username) {
+            document.getElementById("error-message").textContent = "Please enter a username.";
+            document.getElementById("error-message").style.display = "block";
+            return;
+          }
+          const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+          await userCredential.user.updateProfile({ displayName: username });
+        } else {
+          await auth.signInWithEmailAndPassword(email, password);
+        }
+
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        document.getElementById("error-message").textContent = error.message;
+        document.getElementById("error-message").style.display = "block";
+      }
+    }
+
+    // Redirect if already logged in
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        window.location.href = "dashboard.html";
+      }
+    });
+  </script>
+</body>
+</html>

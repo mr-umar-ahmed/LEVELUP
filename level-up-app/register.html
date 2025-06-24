@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - Level Up</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0a0f1c;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      display: flex;
+      background: #111827;
+      border: 2px solid #00f7ff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 20px #00f7ff;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    .left {
+      flex: 1;
+      padding: 50px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 10px;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      background: transparent;
+      color: white;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus {
+      border-color: #00f7ff;
+      outline: none;
+    }
+
+    .btn {
+      background: linear-gradient(to right, #00f7ff, #00c3ff);
+      border: none;
+      padding: 12px;
+      color: #000;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .link-text {
+      color: #aaa;
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .link-text a {
+      color: #00f7ff;
+      text-decoration: none;
+    }
+
+    #error-message {
+      color: red;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .right {
+      flex: 1;
+      background: linear-gradient(to bottom right, #00f7ff, #007c8c);
+      padding: 50px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .right h2 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .right p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="left">
+      <h2>Sign Up</h2>
+
+      <div class="form-group">
+        <input type="text" placeholder="Username" id="username" required />
+      </div>
+
+      <div class="form-group">
+        <input type="email" placeholder="Email" id="email" required />
+      </div>
+
+      <div class="form-group">
+        <input type="password" placeholder="Password" id="password" required />
+      </div>
+
+      <button class="btn" onclick="handleRegister()">Sign Up</button>
+
+      <p id="error-message"></p>
+
+      <p class="link-text">
+        Already have an account? <a href="login.html">Login</a>
+      </p>
+    </div>
+
+    <div class="right">
+      <h2>WELCOME<br />TO LEVEL UP!</h2>
+      <p>Your personalized study and fitness tracker — level up every day!</p>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js" type="module"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js" type="module"></script>
+
+  <!-- Your Firebase config and auth logic -->
+  <script type="module" src="js/firebase.js"></script>
+  <script type="module" src="js/auth.js"></script>
+
+</body>
+</html>

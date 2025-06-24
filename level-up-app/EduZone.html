@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduZone</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background-color: #1e2a38;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      background-color: #151d27;
+      padding-top: 30px;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      cursor: pointer;
+    }
+
+    .sidebar ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .sidebar ul li:hover {
+      background-color: #263142;
+    }
+
+    /* Main */
+    .main {
+      flex-grow: 1;
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .main h1 {
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
+
+    /* Section Grid */
+    .eduzone-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    /* Task Manager */
+    .task-manager {
+      background-color: #263142;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .task-manager h2 {
+      margin-bottom: 10px;
+    }
+
+    .task-manager ul {
+      list-style: none;
+      padding: 0;
+      margin: 10px 0;
+    }
+
+    .task-manager li {
+      padding: 8px 12px;
+      background-color: #1f2a38;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .task-manager li.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .task-manager li:hover {
+      background-color: #34475e;
+    }
+
+    .task-manager input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+    }
+
+    .task-manager button {
+      margin-top: 10px;
+      width: 100%;
+      padding: 10px;
+      background-color: #00c3ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Timer */
+    .timer {
+      background-color: #263142;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .timer-display {
+      font-size: 36px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .timer-controls button {
+      margin: 5px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      background-color: #00b894;
+      color: white;
+    }
+
+    /* Proof Upload */
+    .proof-upload {
+      background-color: #263142;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .proof-upload input {
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .proof-upload button {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #0984e3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* Chatbot */
+    .chatbot {
+      background-color: #263142;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .chatbot button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Logout Button */
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 40px;
+      background: linear-gradient(to right, #ff4b5c, #ff6b6b);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === SIDEBAR === -->
+  <div class="sidebar">
+    <ul>
+      <li onclick="window.location.href='dashboard.html'">Dashboard</li>
+      <li onclick="window.location.href='EduZone.html'">EduZone</li>
+      <li onclick="window.location.href='FitZone.html'">FitZone</li>
+      <li onclick="window.location.href='profile.html'">Profile</li>
+      <li onclick="window.location.href='leaderboard.html'">Leaderboard</li>
+    </ul>
+  </div>
+
+  <!-- === MAIN CONTENT === -->
+  <div class="main">
+    <h1>📚 EduZone</h1>
+
+    <div class="eduzone-section">
+      <!-- Study Tasks -->
+      <div class="task-manager">
+        <h2>🎯 Study Tasks</h2>
+        <ul id="task-list"></ul>
+        <input type="text" id="new-task" placeholder="New task..." />
+        <button onclick="addTask()">Add Task</button>
+      </div>
+
+      <!-- Study Timer -->
+      <div class="timer">
+        <h2>⏱️ Study Timer</h2>
+        <div class="timer-display" id="timer-display">00:00</div>
+        <div class="timer-controls">
+          <button onclick="startTimer()">Start</button>
+          <button onclick="stopTimer()">Stop</button>
+          <button onclick="resetTimer()">Reset</button>
+        </div>
+      </div>
+
+      <!-- Upload Proof -->
+      <div class="proof-upload">
+        <h2>📸 Upload Study Proof</h2>
+        <input type="file" accept="image/*" />
+        <button>Submit for XP</button>
+      </div>
+    </div>
+
+    <!-- AI Assistant -->
+    <div class="chatbot">
+      <h2>💬 Edu AI Assistant</h2>
+      <p>Ask for a study suggestion or motivation!</p>
+      <button>🎓 Get AI Tip</button>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-app-compat.js"></script> 
+  <script src="https://firebasecdn.googleapis.com/firebasejs/10.12.0/firebase-auth-compat.js"></script> 
+
+  <!-- Firebase Config -->
+  <script>
+    // Replace with your actual Firebase project config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCSHtcsnC5AnfEEXnAQsP7UmYpSvoAzLmQ",
+      authDomain: "levelup-2cea4.firebaseapp.com",
+      projectId: "levelup-2cea4",
+      storageBucket: "levelup-2cea4.firebasestorage.app",
+      messagingSenderId: "491625630322",
+      appId: "1:491625630322:web:9e4c7730d8a4aeda4a10eb"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+  </script>
+
+  <!-- Auth Check & Logout Button -->
+  <script>
+    // Redirect if not logged in
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        // Add logout button
+        const logoutBtn = document.createElement("button");
+        logoutBtn.textContent = "Logout";
+        logoutBtn.className = "logout-btn";
+        logoutBtn.onclick = () => auth.signOut();
+
+        document.body.appendChild(logoutBtn);
+      }
+    });
+  </script>
+
+  <!-- Task Manager Logic -->
+  <script>
+    const tasks = [
+      { text: "Read a chapter", completed: false },
+      { text: "Solve 5 math problems", completed: false },
+      { text: "Watch a tutorial", completed: false }
+    ];
+
+    function renderTasks() {
+      const list = document.getElementById("task-list");
+      list.innerHTML = "";
+      tasks.forEach((task, idx) => {
+        const li = document.createElement("li");
+        li.textContent = task.text;
+        if (task.completed) li.classList.add("completed");
+        li.onclick = () => toggleTask(idx);
+        list.appendChild(li);
+      });
+    }
+
+    function toggleTask(index) {
+      tasks[index].completed = !tasks[index].completed;
+      renderTasks();
+    }
+
+    function addTask() {
+      const input = document.getElementById("new-task");
+      const text = input.value.trim();
+      if (text) {
+        tasks.push({ text, completed: false });
+        input.value = "";
+        renderTasks();
+      }
+    }
+
+    renderTasks();
+  </script>
+
+  <!-- Timer Logic -->
+  <script>
+    let timer = 0;
+    let interval = null;
+
+    function formatTime(seconds) {
+      const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+      return `${m}:${s}`;
+    }
+
+    function updateDisplay() {
+      document.getElementById("timer-display").textContent = formatTime(timer);
+    }
+
+    function startTimer() {
+      if (!interval) {
+        interval = setInterval(() => {
+          timer++;
+          updateDisplay();
+        }, 1000);
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(interval);
+      interval = null;
+    }
+
+    function resetTimer() {
+      stopTimer();
+      timer = 0;
+      updateDisplay();
+    }
+
+    updateDisplay(); // Initial display
+  </script>
+</body>
+</html>

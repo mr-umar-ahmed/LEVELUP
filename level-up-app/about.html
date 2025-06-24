@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Level Up</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      font-family: "Poppins", sans-serif;
+      background-color: #283b48;
+      color: white;
+    }
+
+    .sidebar {
+      width: 250px;
+      background: linear-gradient(136deg, rgba(169, 169, 169, 0.3) 39%, rgba(113, 96, 96, 0.3) 87%);
+      padding-top: 60px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding-left: 30px;
+    }
+
+    .sidebar li {
+      padding: 15px 0;
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .sidebar li:hover,
+    .sidebar li.active {
+      color: #00f7ff;
+    }
+
+    .sidebar a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .about-main {
+      flex: 1;
+      background-color: #222933;
+      border-top-left-radius: 30px;
+      border-bottom-left-radius: 30px;
+      padding: 40px 60px;
+      overflow-y: auto;
+    }
+
+    .about-main h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #00f7ff;
+    }
+
+    .about-main h2 {
+      font-size: 22px;
+      margin-top: 30px;
+      color: #00c3ff;
+    }
+
+    .about-main p {
+      font-size: 14px;
+      margin: 15px 0;
+      color: #ddd;
+    }
+
+    .about-main ul {
+      list-style: none;
+      padding-left: 0;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .about-main ul li {
+      margin-bottom: 10px;
+    }
+
+    .team-list li {
+      padding-left: 10px;
+      border-left: 2px solid #00f7ff;
+      margin-bottom: 10px;
+    }
+
+    a.repo-link {
+      color: #00f7ff;
+      text-decoration: none;
+    }
+
+    a.repo-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <ul>
+      <li><a href="/level-up-app/dashboard.html">Dashboard</a></li>
+      <li><a href="/level-up-app/profile.html">Profile</a></li>
+      <li><a href="/level-up-app/EduZone.html">Study</a></li>
+      <li><a href="/level-up-app/FitZone.html">Fitness</a></li>
+      <li class="active"><a href="/level-up-app/about.html">About</a></li>
+    </ul>
+  </div>
+
+  <div class="about-main">
+    <h1>About Level Up</h1>
+    <p>
+      Welcome to <strong>Level Up</strong>, your all-in-one tracker for study and fitness! We believe that
+      building good habits should be simple, fun, and motivating. Whether you're aiming to
+      improve your academic performance or stay active, Level Up helps you stay on track and
+      reach your goals.
+    </p>
+
+    <h2>What You Can Do with Level Up:</h2>
+    <ul>
+      <li>📚 Track your study progress — log sessions, set goals, and monitor improvement</li>
+      <li>💪 Stay fit — plan workouts and stay consistent</li>
+      <li>🎨 Clean UI — minimalist + fun interface</li>
+      <li>🧠 Separate dashboards — easy switch between study and fitness</li>
+    </ul>
+
+    <h2>Our Mission</h2>
+    <p>
+      We created Level Up to make personal growth effortless and enjoyable. Whether you're
+      studying for exams, building a fitness routine, or just trying to stay productive, our
+      goal is to help you stay motivated and level up every day!
+    </p>
+
+    <h2>Meet the Team</h2>
+    <p>We’re the creators of Level Up — feel free to connect with us!</p>
+    <ul class="team-list">
+      <li>Umar Ahmed (Team Leader)</li>
+      <li>Shahana Tarannum</li>
+      <li>Sobiya Naaz</li>
+      <li>Hammad Hussain</li>
+    </ul>
+
+    <h2>App Info</h2>
+    <p>
+      <strong>Project Name:</strong> Level Up<br />
+      <strong>Tech Stack:</strong> HTML, CSS, JavaScript, Firebase Authentication, Firestore, Firebase Hosting<br />
+      <strong>GitHub Repository:</strong>
+      <a href="https://github.com/your-team/levelup" target="_blank" class="repo-link">Visit Repository</a>
+    </p>
+  </div>
+
+</body>
+</html>
